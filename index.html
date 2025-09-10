@@ -79,7 +79,7 @@
     <a-scene 
         vr-mode-ui="enabled: false;" 
         renderer="logarithmicDepthBuffer: true; colorManagement: true; sortObjects: true;"
-        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
         
         <!-- Configuración de assets (fuentes y materiales) -->
         <a-assets>
@@ -109,7 +109,7 @@
         <!-- Marcadores ArUco - Aquí irán tus códigos -->
         
         <!-- ArUco ID 1 - German -->
-        <a-marker type="pattern" preset="custom" url="patterns/pattern-aruco-1.patt" id="marker-1">
+        <a-marker type="barcode" value="1" id="marker-1">
             <a-entity id="content-1" position="0 0 0">
                 <!-- Título principal -->
                 <a-text value="¡Hola!" 
@@ -135,7 +135,7 @@
         </a-marker>
 
         <!-- ArUco ID 2 - Fernanfloo -->
-        <a-marker type="pattern" preset="custom" url="patterns/pattern-aruco-2.patt" id="marker-2">
+        <a-marker type="barcode" value="2" id="marker-2">
             <a-entity id="content-2" position="0 0 0">
                 <!-- Título principal -->
                 <a-text value="¡Hola!" 
@@ -161,7 +161,7 @@
         </a-marker>
 
         <!-- ArUco ID 3 - Rubius -->
-        <a-marker type="pattern" preset="custom" url="patterns/pattern-aruco-3.patt" id="marker-3">
+        <a-marker type="barcode" value="3" id="marker-3">
             <a-entity id="content-3" position="0 0 0">
                 <!-- Título principal -->
                 <a-text value="¡Hola!" 
