@@ -79,7 +79,7 @@
     <!-- Escena de Realidad Aumentada -->
     <a-scene 
         embedded 
-        arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5;'
+        arjs='sourceType: webcam; debugUIEnabled: true; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'
         renderer="antialias: true; logarithmicDepthBuffer: true; colorManagement: true; sortObjects: true;">
         
         <!-- Configuración de assets (fuentes y materiales) -->
@@ -109,37 +109,35 @@
 
         <!-- Marcadores ArUco - Aquí irán tus códigos -->
         
-        <!-- ArUco ID 1 - German -->
+        <!-- Marcador básico que debería funcionar -->
+        <a-marker type='barcode' value='0'>
+            <a-box position="0 0.5 0" material="color: red;" scale="1 1 1"></a-box>
+            <a-text value="CODIGO 0" position="0 1.5 0" align="center" color="white" scale="2 2 2"></a-text>
+        </a-marker>
+
         <a-marker type='barcode' value='1'>
-            <a-text value="Hola soy German" 
-                    position="0 1 0" 
-                    align="center" 
-                    color="red" 
-                    scale="3 3 3">
-            </a-text>
+            <a-box position="0 0.5 0" material="color: blue;" scale="1 1 1"></a-box>
+            <a-text value="HOLA SOY GERMAN" position="0 1.5 0" align="center" color="white" scale="2 2 2"></a-text>
         </a-marker>
 
-        <!-- ArUco ID 2 - Fernanfloo -->
         <a-marker type='barcode' value='2'>
-            <a-box position="0 0.5 0" material="color: red;" scale="0.5 0.5 0.5"></a-box>
-            <a-text value="Fernanfloo AQUI" 
-                    position="0 0 0" 
-                    align="center" 
-                    color="white" 
-                    scale="5 5 5"
-                    geometry="primitive: plane; width: 4; height: 1"
-                    material="color: blue;">
-            </a-text>
+            <a-box position="0 0.5 0" material="color: green;" scale="1 1 1"></a-box>
+            <a-text value="FERNANFLOO" position="0 1.5 0" align="center" color="white" scale="2 2 2"></a-text>
         </a-marker>
 
-        <!-- ArUco ID 3 - Rubius -->
         <a-marker type='barcode' value='3'>
-            <a-text value="Rubius" 
-                    position="0 1 0" 
-                    align="center" 
-                    color="green" 
-                    scale="3 3 3">
-            </a-text>
+            <a-box position="0 0.5 0" material="color: yellow;" scale="1 1 1"></a-box>
+            <a-text value="RUBIUS" position="0 1.5 0" align="center" color="white" scale="2 2 2"></a-text>
+        </a-marker>
+
+        <a-marker type='barcode' value='4'>
+            <a-box position="0 0.5 0" material="color: purple;" scale="1 1 1"></a-box>
+            <a-text value="CODIGO 4" position="0 1.5 0" align="center" color="white" scale="2 2 2"></a-text>
+        </a-marker>
+
+        <a-marker type='barcode' value='5'>
+            <a-box position="0 0.5 0" material="color: orange;" scale="1 1 1"></a-box>
+            <a-text value="CODIGO 5" position="0 1.5 0" align="center" color="white" scale="2 2 2"></a-text>
         </a-marker>
 
 
