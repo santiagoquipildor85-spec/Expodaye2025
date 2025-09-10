@@ -1,377 +1,364 @@
-<!doctype HTML>
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    </head>
-    <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
-    <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
-    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
-
-    <body style='margin : 0px; overflow: hidden;'>
-        <!-- Panel de debug -->
-        <div id="debugPanel" style="position: fixed; top: 10px; left: 10px; background: rgba(0,0,0,0.8); color: white; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 12px; z-index: 1000; max-width: 300px;">
-            <div><strong>🔍 AR Debug Panel</strong></div>
-            <div id="markerStatus">Estado: Iniciando...</div>
-            <div id="markerCount">Marcadores detectados: 0</div>
-            <div id="trackingInfo">Tracking: No activo</div>
-            <div id="cameraInfo">Cámara: Iniciando...</div>
-            <div id="lastError">Sin errores</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Marcadores AR - 4x4_BCH_13_5_5</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .marker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .marker-item {
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+        }
+        .marker {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 10px;
+            border: 2px solid #000;
+            position: relative;
+            background: white;
+        }
+        .marker canvas {
+            width: 100%;
+            height: 100%;
+        }
+        .marker-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .download-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .download-btn:hover {
+            background: #0056b3;
+        }
+        .download-all {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px 10px;
+        }
+        .download-all:hover {
+            background: #1e7e34;
+        }
+        .info {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .print-guide {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        @media print {
+            body { margin: 0; background: white; }
+            .controls, .info, .print-guide { display: none; }
+            .marker-item { break-inside: avoid; page-break-inside: avoid; }
+            .marker { width: 120px; height: 120px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Generador de Marcadores AR</h1>
+            <p>Códigos matriciales 4x4_BCH_13_5_5 optimizados para detección a 30cm</p>
         </div>
 
-        <!-- Configuración exacta de AR.js para detección de códigos de barras matriciales -->
-        <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5;'
-                 renderer="antialias: true; logarithmicDepthBuffer: true; colorManagement: true; sortObjects: true;"
-                 id="scene">
+        <div class="info">
+            <h3>📋 Información importante:</h3>
+            <ul>
+                <li><strong>Tipo:</strong> Códigos matriciales 4x4_BCH_13_5_5</li>
+                <li><strong>Distancia óptima:</strong> 30 cm de la cámara</li>
+                <li><strong>Tamaño recomendado de impresión:</strong> 8cm x 8cm mínimo</li>
+                <li><strong>Compatible con:</strong> AR.js y A-Frame</li>
+            </ul>
+        </div>
 
-        <!-- Marcador 1 - BERSA TPR9 -->
-        <a-marker id="animated-marker1" type='barcode' value='1'>
-            <a-image 
-                src="BERSA TPR9_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
+        <div class="controls">
+            <button class="download-all" onclick="downloadAllMarkers()">📥 Descargar Todos los Marcadores</button>
+            <button class="download-all" onclick="printAllMarkers()" style="background: #6f42c1;">🖨️ Imprimir Todos</button>
+        </div>
 
-        <!-- Marcador 2 - CARABINA MADSEN -->
-        <a-marker id="animated-marker2" type='barcode' value='2'>
-            <a-image 
-                src="CARABINA MADSEN_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
+        <div class="marker-grid" id="markerGrid">
+            <!-- Los marcadores se generarán aquí -->
+        </div>
+
+        <div class="print-guide">
+            <h3>📖 Guía de impresión para detección a 30cm:</h3>
+            <ol>
+                <li><strong>Tamaño:</strong> Imprime cada marcador a 8cm x 8cm mínimo</li>
+                <li><strong>Papel:</strong> Usa papel blanco mate (evita papel brillante)</li>
+                <li><strong>Calidad:</strong> Imprime a máxima calidad (600 DPI o superior)</li>
+                <li><strong>Contraste:</strong> Asegúrate de que el negro sea sólido y el blanco sea puro</li>
+                <li><strong>Montaje:</strong> Pega sobre cartón rígido para evitar arrugas</li>
+                <li><strong>Iluminación:</strong> Usa bajo luz uniforme, evita sombras y reflejos</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Patrones estándar AR.js para códigos matriciales 4x4_BCH_13_5_5
+        const markerPatterns = {
+            1: [
+                [1,0,0,0],
+                [1,0,0,1],
+                [1,1,1,0],
+                [0,1,1,1]
+            ],
+            2: [
+                [1,0,1,1],
+                [0,1,1,0],
+                [0,1,0,0],
+                [1,0,0,1]
+            ],
+            3: [
+                [0,1,0,0],
+                [1,1,0,1],
+                [1,1,1,1],
+                [1,0,0,1]
+            ],
+            4: [
+                [0,1,1,0],
+                [1,0,0,1],
+                [1,0,1,1],
+                [0,1,1,0]
+            ],
+            5: [
+                [1,1,0,1],
+                [0,0,1,0],
+                [0,0,0,0],
+                [1,1,0,1]
+            ],
+            6: [
+                [1,0,0,1],
+                [0,1,1,0],
+                [1,1,0,1],
+                [0,0,1,0]
+            ],
+            7: [
+                [0,0,1,0],
+                [1,1,0,1],
+                [0,0,1,0],
+                [1,1,0,1]
+            ],
+            8: [
+                [1,1,1,1],
+                [0,0,0,0],
+                [1,0,1,1],
+                [0,1,0,0]
+            ],
+            9: [
+                [0,1,0,0],
+                [1,0,1,1],
+                [0,1,0,0],
+                [1,0,1,1]
+            ],
+            10: [
+                [1,0,1,1],
+                [0,1,0,0],
+                [1,1,1,1],
+                [0,0,0,0]
+            ],
+            11: [
+                [0,0,0,0],
+                [1,1,1,1],
+                [0,1,0,0],
+                [1,0,1,1]
+            ],
+            12: [
+                [1,1,0,1],
+                [0,0,1,0],
+                [1,0,0,1],
+                [0,1,1,0]
+            ],
+            13: [
+                [0,1,1,0],
+                [1,0,0,1],
+                [0,1,1,0],
+                [1,0,0,1]
+            ],
+            14: [
+                [1,0,0,1],
+                [0,1,1,0],
+                [0,0,1,0],
+                [1,1,0,1]
+            ],
+            15: [
+                [0,0,1,0],
+                [1,1,0,1],
+                [1,1,0,1],
+                [0,0,1,0]
+            ],
+            16: [
+                [1,1,1,1],
+                [0,0,0,0],
+                [0,1,0,0],
+                [1,0,1,1]
+            ],
+            17: [
+                [0,1,0,0],
+                [1,0,1,1],
+                [1,0,1,1],
+                [0,1,0,0]
+            ],
+            18: [
+                [1,0,1,1],
+                [0,1,0,0],
+                [0,0,0,0],
+                [1,1,1,1]
+            ],
+            19: [
+                [0,0,0,0],
+                [1,1,1,1],
+                [1,0,1,1],
+                [0,1,0,0]
+            ]
+        };
+
+        function generateMarker(value, pattern) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 320; // Tamaño alto para buena calidad de impresión
+            canvas.height = 320;
+            const ctx = canvas.getContext('2d');
             
-        <!-- Marcador 3 - CARABINA MAUSER -->
-        <a-marker id="animated-marker3" type='barcode' value='3'>
-            <a-image 
-                src="CARABINA MAUSER_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-        
-        <!-- Marcador 4 - HALCON M-1943 -->
-        <a-marker id="animated-marker4" type='barcode' value='4'>
-            <a-image 
-                src="HALCON M-1943_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
+            // Fondo blanco
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, 320, 320);
             
-        <!-- Marcador 5 - HALCON ML57 -->
-        <a-marker id="animated-marker5" type='barcode' value='5'>
-            <a-image 
-                src="HALCON ML57_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
+            // Borde negro exterior (importante para detección)
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, 320, 40); // Superior
+            ctx.fillRect(0, 280, 320, 40); // Inferior
+            ctx.fillRect(0, 0, 40, 320); // Izquierdo
+            ctx.fillRect(280, 0, 40, 320); // Derecho
             
-        <!-- Marcador 6 - HALCON ML62 -->
-        <a-marker id="animated-marker6" type='barcode' value='6'>
-            <a-image 
-                src="HALCON ML62_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-
-        <!-- Marcador 7 - HIGH STANDARD -->
-        <a-marker id="animated-marker7" type='barcode' value='7'>
-            <a-image 
-                src="HIGH STANDARD_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-        
-        <!-- Marcador 8 - ITHACA 37 -->
-        <a-marker id="animated-marker8" type='barcode' value='8'>
-            <a-image 
-                src="ITHACA 37_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-        
-        <!-- Marcador 9 - JERICHO RPSL -->
-        <a-marker id="animated-marker9" type='barcode' value='9'>
-            <a-image 
-                src="jericho rpsl_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
+            // Patrón interno 4x4
+            const cellSize = 60; // Tamaño de cada celda del patrón
+            const startX = 40;
+            const startY = 40;
             
-        <!-- Marcador 10 - MOSCHETTO BERETTA -->
-        <a-marker id="animated-marker10" type='barcode' value='10'>
-            <a-image 
-                src="MOSCHETTO BERETTA_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-            
-        <!-- Marcador 11 - PISTOLA BALLESTER MOLINA Y RIGAU -->
-        <a-marker id="animated-marker11" type='barcode' value='11'>
-            <a-image 
-                src="PISTOLA BALLESTER MOLINA Y RIGAU_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-            
-        <!-- Marcador 12 - PISTOLA BROWNING -->
-        <a-marker id="animated-marker12" type='barcode' value='12'>
-            <a-image 
-                src="PISTOLA BROWNING_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-            
-        <!-- Marcador 13 - PISTOLA COLT M1911 -->
-        <a-marker id="animated-marker13" type='barcode' value='13'>
-            <a-image 
-                src="PISTOLA COLT M1911_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-            
-        <!-- Marcador 14 - PISTOLA EMETRALLADORA FMK3 -->
-        <a-marker id="animated-marker14" type='barcode' value='14'>
-            <a-image 
-                src="PISTOLA EMETRALLADORA FMK3_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-
-        <!-- Marcador 15 - PISTOLA HI-POWER -->
-        <a-marker id="animated-marker15" type='barcode' value='15'>
-            <a-image 
-                src="PISTOLA HI-POWER_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-
-        <!-- Marcador 16 - PISTOLA TAURUS -->
-        <a-marker id="animated-marker16" type='barcode' value='16'>
-            <a-image 
-                src="PISTOLA TAURUS_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-
-        <!-- Marcador 17 - REVOLVER COLT TROPPER -->
-        <a-marker id="animated-marker17" type='barcode' value='17'>
-            <a-image 
-                src="REVOLVER COLT TROPPER_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-
-        <!-- Marcador 18 - SISTEMA COLT -->
-        <a-marker id="animated-marker18" type='barcode' value='18'>
-            <a-image 
-                src="SISTEMA COLT_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-
-        <!-- Marcador 19 - THOMPSON -->
-        <a-marker id="animated-marker19" type='barcode' value='19'>
-            <a-image 
-                src="THOMPSON_page-0001.jpg"
-                width="2"
-                height="2"
-                position="0 0 0"
-                rotation="-90 0 0">
-            </a-image>
-        </a-marker>
-
-        <a-entity camera></a-entity>
-        </a-scene>
-
-        <!-- Script de debugging -->
-        <script>
-            let debugPanel = {
-                markerStatus: document.getElementById('markerStatus'),
-                markerCount: document.getElementById('markerCount'),
-                trackingInfo: document.getElementById('trackingInfo'),
-                cameraInfo: document.getElementById('cameraInfo'),
-                lastError: document.getElementById('lastError')
-            };
-
-            let detectedMarkers = new Set();
-            let trackingHistory = [];
-            let lastDetectionTime = 0;
-
-            function updateDebugPanel() {
-                const now = Date.now();
-                debugPanel.markerCount.textContent = `Marcadores detectados: ${detectedMarkers.size}`;
-                
-                if (detectedMarkers.size > 0) {
-                    debugPanel.markerStatus.textContent = `Estado: ✅ Detectando [${Array.from(detectedMarkers).join(', ')}]`;
-                } else {
-                    debugPanel.markerStatus.textContent = `Estado: ❌ Sin detección`;
-                }
-
-                // Información de tracking
-                const trackingGap = now - lastDetectionTime;
-                if (trackingGap > 500) {
-                    debugPanel.trackingInfo.textContent = `Tracking: ⚠️ Perdido (${Math.round(trackingGap/100)/10}s)`;
-                } else {
-                    debugPanel.trackingInfo.textContent = `Tracking: ✅ Activo`;
-                }
-            }
-
-            function logEvent(event, markerId = null) {
-                const timestamp = new Date().toLocaleTimeString();
-                console.log(`[${timestamp}] AR.js Event: ${event}${markerId ? ` - Marcador ${markerId}` : ''}`);
-                
-                trackingHistory.push({
-                    time: Date.now(),
-                    event: event,
-                    markerId: markerId
-                });
-
-                // Mantener solo los últimos 50 eventos
-                if (trackingHistory.length > 50) {
-                    trackingHistory.shift();
-                }
-            }
-
-            // Esperar a que se cargue A-Frame
-            document.addEventListener('DOMContentLoaded', function() {
-                setTimeout(function() {
-                    const scene = document.querySelector('a-scene');
-                    
-                    if (scene) {
-                        logEvent('Scene iniciada');
-                        debugPanel.cameraInfo.textContent = 'Cámara: ✅ Iniciada';
-
-                        // Event listeners para todos los marcadores
-                        for (let i = 1; i <= 19; i++) {
-                            const marker = document.querySelector(`#animated-marker${i}`);
-                            if (marker) {
-                                // Marcador encontrado
-                                marker.addEventListener('markerFound', function() {
-                                    detectedMarkers.add(i);
-                                    lastDetectionTime = Date.now();
-                                    logEvent('MARCADOR ENCONTRADO', i);
-                                    updateDebugPanel();
-                                });
-
-                                // Marcador perdido
-                                marker.addEventListener('markerLost', function() {
-                                    detectedMarkers.delete(i);
-                                    logEvent('MARCADOR PERDIDO', i);
-                                    updateDebugPanel();
-                                });
-
-                                logEvent(`Listener configurado para marcador ${i}`);
-                            }
-                        }
-
-                        // Event listener general de AR.js
-                        scene.addEventListener('arjs-video-loaded', function() {
-                            logEvent('Video cargado');
-                            debugPanel.cameraInfo.textContent = 'Cámara: ✅ Video cargado';
-                        });
-
-                        scene.addEventListener('camera-init', function() {
-                            logEvent('Cámara inicializada');
-                        });
-
-                        scene.addEventListener('camera-error', function(event) {
-                            logEvent('ERROR DE CÁMARA');
-                            debugPanel.lastError.textContent = `Error: Cámara falló`;
-                            debugPanel.cameraInfo.textContent = 'Cámara: ❌ Error';
-                        });
-
-                    } else {
-                        debugPanel.lastError.textContent = 'Error: No se encontró la scene';
+            for (let row = 0; row < 4; row++) {
+                for (let col = 0; col < 4; col++) {
+                    if (pattern[row][col] === 1) {
+                        ctx.fillStyle = 'black';
+                        ctx.fillRect(
+                            startX + col * cellSize,
+                            startY + row * cellSize,
+                            cellSize,
+                            cellSize
+                        );
                     }
+                }
+            }
+            
+            return canvas;
+        }
 
-                    // Actualizar panel cada 100ms
-                    setInterval(updateDebugPanel, 100);
+        function downloadMarker(value, canvas) {
+            const link = document.createElement('a');
+            link.download = `marcador_${value}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
 
-                }, 1000);
+        function downloadAllMarkers() {
+            Object.keys(markerPatterns).forEach(value => {
+                const pattern = markerPatterns[value];
+                const canvas = generateMarker(value, pattern);
+                setTimeout(() => {
+                    downloadMarker(value, canvas);
+                }, parseInt(value) * 200); // Pequeño delay entre descargas
             });
+        }
 
-            // Log de errores globales
-            window.addEventListener('error', function(event) {
-                logEvent('ERROR JAVASCRIPT');
-                debugPanel.lastError.textContent = `Error: ${event.message}`;
-                console.error('Error capturado:', event);
+        function printAllMarkers() {
+            window.print();
+        }
+
+        function initializeMarkers() {
+            const grid = document.getElementById('markerGrid');
+            
+            Object.keys(markerPatterns).forEach(value => {
+                const pattern = markerPatterns[value];
+                const canvas = generateMarker(value, pattern);
+                
+                const markerItem = document.createElement('div');
+                markerItem.className = 'marker-item';
+                
+                markerItem.innerHTML = `
+                    <div class="marker-label">Marcador ${value}</div>
+                    <div class="marker"></div>
+                    <button class="download-btn" onclick="downloadIndividual(${value})">
+                        Descargar PNG
+                    </button>
+                `;
+                
+                const markerDiv = markerItem.querySelector('.marker');
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                markerDiv.appendChild(canvas);
+                
+                grid.appendChild(markerItem);
             });
+        }
 
-            // Función para exportar logs (para debugging)
-            window.exportLogs = function() {
-                const logs = {
-                    trackingHistory: trackingHistory,
-                    detectedMarkers: Array.from(detectedMarkers),
-                    timestamp: new Date().toISOString(),
-                    userAgent: navigator.userAgent
-                };
-                
-                console.log('=== LOGS DE DEBUGGING ===');
-                console.log(JSON.stringify(logs, null, 2));
-                
-                // También crear un archivo descargable
-                const blob = new Blob([JSON.stringify(logs, null, 2)], {type: 'application/json'});
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `ar-debug-${Date.now()}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-            };
+        function downloadIndividual(value) {
+            const pattern = markerPatterns[value];
+            const canvas = generateMarker(value, pattern);
+            downloadMarker(value, canvas);
+        }
 
-            logEvent('Script de debugging cargado');
-        </script>
-    </body>
+        // Inicializar cuando se carga la página
+        document.addEventListener('DOMContentLoaded', initializeMarkers);
+    </script>
+</body>
 </html>
