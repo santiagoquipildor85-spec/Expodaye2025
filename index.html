@@ -121,11 +121,14 @@
 
         <!-- ArUco ID 2 - Fernanfloo -->
         <a-marker type='barcode' value='2'>
-            <a-text value="Fernanfloo" 
-                    position="0 1 0" 
+            <a-box position="0 0.5 0" material="color: red;" scale="0.5 0.5 0.5"></a-box>
+            <a-text value="Fernanfloo AQUI" 
+                    position="0 0 0" 
                     align="center" 
-                    color="blue" 
-                    scale="3 3 3">
+                    color="white" 
+                    scale="5 5 5"
+                    geometry="primitive: plane; width: 4; height: 1"
+                    material="color: blue;">
             </a-text>
         </a-marker>
 
@@ -138,6 +141,7 @@
                     scale="3 3 3">
             </a-text>
         </a-marker>
+
 
         <!-- Cámara -->
         <a-entity camera></a-entity>
