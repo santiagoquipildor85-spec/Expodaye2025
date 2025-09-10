@@ -93,7 +93,7 @@ const ArConfig = {
         sourceType: "webcam",
         debugUIEnabled: false,
         detectionMode: "mono_and_matrix",
-        matrixCodeType: "3x3"
+        matrixCodeType: "4x4_BCH_13_5_5"
     },
     
     // Configuración de interfaz
@@ -153,3 +153,4 @@ function addMarkerConfig(id, title, content, highlight, animations = {}) {
     console.error(`ID de marcador inválido: ${id}`);
     return false;
 }
+
