@@ -143,6 +143,28 @@
                 rotation="-90 0 0">
             </a-image>
         </a-marker>
+
+        <!-- Marcador 20 - THOMPSON -->
+        <a-marker id="animated-marker20" type='barcode' value='20' smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
+            <a-image 
+                src="THOMPSON_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+
+        <!-- Marcador 21 - PISTOLA BALLESTER MOLINA Y RIGAU -->
+        <a-marker id="animated-marker21" type='barcode' value='21' smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
+            <a-image 
+                src="PISTOLA BALLESTER MOLINA Y RIGAU_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
             
         <!-- Marcador 12 - PISTOLA BROWNING -->
         <a-marker id="animated-marker12" type='barcode' value='12' smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
@@ -302,7 +324,7 @@
                         debugPanel.cameraInfo.textContent = 'Cámara: ✅ Iniciada';
 
                         // Event listeners para todos los marcadores
-                        for (let i = 1; i <= 19; i++) {
+                        for (let i = 1; i <= 21; i++) {
                             const marker = document.querySelector(`#animated-marker${i}`);
                             if (marker) {
                                 // Marcador encontrado
