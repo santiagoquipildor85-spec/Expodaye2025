@@ -77,9 +77,8 @@
     
     <!-- Escena de Realidad Aumentada -->
     <a-scene 
-        vr-mode-ui="enabled: false;" 
-        renderer="antialias: true; logarithmicDepthBuffer: true; colorManagement: true; sortObjects: true;"
-        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: true; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5;">
+        embedded 
+        arjs="sourceType: webcam; debugUIEnabled: true; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5;">
         
         <!-- Configuración de assets (fuentes y materiales) -->
         <a-assets>
@@ -109,81 +108,33 @@
         <!-- Marcadores ArUco - Aquí irán tus códigos -->
         
         <!-- ArUco ID 1 - German -->
-        <a-marker type="barcode" value="1" id="marker-1">
-            <a-entity id="content-1" position="0 0 0">
-                <!-- Título principal -->
-                <a-text value="¡Hola!" 
-                        position="0 1.2 0" 
-                        mixin="texto-principal"
-                        animation="property: rotation; to: 0 360 0; loop: true; dur: 8000">
-                </a-text>
-                
-                <!-- Mensaje principal -->
-                <a-text value="Soy German" 
-                        position="0 0.5 0" 
-                        mixin="texto-secundario"
-                        animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; loop: true; dur: 2000">
-                </a-text>
-                
-                <!-- Emoji o decoración -->
-                <a-text value="👋 ¡Saludos!" 
-                        position="0 -0.3 0" 
-                        mixin="texto-destacado"
-                        animation="property: position; to: 0 -0.1 0; dir: alternate; loop: true; dur: 1500">
-                </a-text>
-            </a-entity>
+        <a-marker type="barcode" value="1">
+            <a-text value="Hola soy German" 
+                    position="0 0 0" 
+                    align="center" 
+                    color="red" 
+                    scale="2 2 2">
+            </a-text>
         </a-marker>
 
         <!-- ArUco ID 2 - Fernanfloo -->
-        <a-marker type="barcode" value="2" id="marker-2">
-            <a-entity id="content-2" position="0 0 0">
-                <!-- Título principal -->
-                <a-text value="¡Hola!" 
-                        position="0 1.2 0" 
-                        mixin="texto-principal"
-                        animation="property: rotation; to: 0 -360 0; loop: true; dur: 10000">
-                </a-text>
-                
-                <!-- Mensaje principal -->
-                <a-text value="Soy Fernanfloo" 
-                        position="0 0.5 0" 
-                        mixin="texto-secundario"
-                        animation="property: scale; to: 1.2 1.2 1.2; dir: alternate; loop: true; dur: 1800">
-                </a-text>
-                
-                <!-- Emoji o decoración -->
-                <a-text value="🎮 ¡A jugar!" 
-                        position="0 -0.3 0" 
-                        mixin="texto-destacado"
-                        animation="property: position; to: 0 -0.1 0; dir: alternate; loop: true; dur: 2200">
-                </a-text>
-            </a-entity>
+        <a-marker type="barcode" value="2">
+            <a-text value="Fernanfloo" 
+                    position="0 0 0" 
+                    align="center" 
+                    color="blue" 
+                    scale="2 2 2">
+            </a-text>
         </a-marker>
 
         <!-- ArUco ID 3 - Rubius -->
-        <a-marker type="barcode" value="3" id="marker-3">
-            <a-entity id="content-3" position="0 0 0">
-                <!-- Título principal -->
-                <a-text value="¡Hola!" 
-                        position="0 1.2 0" 
-                        mixin="texto-principal"
-                        animation="property: rotation; to: 0 360 0; loop: true; dur: 12000">
-                </a-text>
-                
-                <!-- Mensaje principal -->
-                <a-text value="Soy Rubius" 
-                        position="0 0.5 0" 
-                        mixin="texto-secundario"
-                        animation="property: scale; to: 1.15 1.15 1.15; dir: alternate; loop: true; dur: 2500">
-                </a-text>
-                
-                <!-- Emoji o decoración -->
-                <a-text value="🔥 ¡Épico!" 
-                        position="0 -0.3 0" 
-                        mixin="texto-destacado"
-                        animation="property: position; to: 0 -0.1 0; dir: alternate; loop: true; dur: 1800">
-                </a-text>
-            </a-entity>
+        <a-marker type="barcode" value="3">
+            <a-text value="Rubius" 
+                    position="0 0 0" 
+                    align="center" 
+                    color="green" 
+                    scale="2 2 2">
+            </a-text>
         </a-marker>
 
         <!-- Cámara -->
