@@ -18,8 +18,8 @@
             <div id="lastError">Sin errores</div>
         </div>
 
-        <!-- Configuración básica que funcionaba -->
-        <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5;'
+        <!-- Configuración básica mejorada -->
+        <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5; maxDetectionRate: 30;'
                  renderer="antialias: true; logarithmicDepthBuffer: true; colorManagement: true; sortObjects: true;"
                  id="scene">
 
@@ -222,7 +222,7 @@
         </a-marker>
 
         <!-- Marcador 19 - TU MARCADOR IMPRESO (BERSA TPR9) -->
-        <a-marker id="animated-marker19" type='barcode' value='19'>
+        <a-marker id="animated-marker19" type='barcode' value='19' smooth="true" smoothCount="3" smoothTolerance="0.02" smoothThreshold="3">
             <a-image 
                 src="BERSA TPR9_page-0001.jpg"
                 width="2"
@@ -249,7 +249,7 @@
             let trackingHistory = [];
             let lastDetectionTime = 0;
             let markerPersistence = {}; // Para mantener marcadores visibles por más tiempo
-            let PERSISTENCE_TIME = 2000; // 2 segundos de persistencia
+            let PERSISTENCE_TIME = 5000; // 5 segundos de persistencia
 
             function updateDebugPanel() {
                 const now = Date.now();
@@ -314,15 +314,19 @@
                                     updateDebugPanel();
                                 });
 
-                                // Marcador perdido - con persistencia
+                                // Marcador perdido - con persistencia inteligente
                                 marker.addEventListener('markerLost', function() {
+                                    // No remover inmediatamente, solo marcar como perdido
                                     markerPersistence[i] = Date.now();
-                                    logEvent('MARCADOR PERDIDO (con persistencia)', i);
+                                    logEvent('MARCADOR PERDIDO (manteniendo)', i);
                                     
-                                    // Remover después del tiempo de persistencia
+                                    // Remover solo después de un tiempo sin re-detectar
                                     setTimeout(() => {
-                                        const timeSinceLost = Date.now() - markerPersistence[i];
-                                        if (timeSinceLost >= PERSISTENCE_TIME) {
+                                        const now = Date.now();
+                                        const timeSinceLost = now - (markerPersistence[i] || 0);
+                                        
+                                        // Solo remover si no se ha detectado recientemente
+                                        if (timeSinceLost >= PERSISTENCE_TIME && markerPersistence[i]) {
                                             detectedMarkers.delete(i);
                                             delete markerPersistence[i];
                                             logEvent('MARCADOR REMOVIDO definitivamente', i);
