@@ -18,13 +18,13 @@
             <div id="lastError">Sin errores</div>
         </div>
 
-        <!-- Configuración optimizada para mejor detección y tracking -->
-        <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5; trackingMethod: best; maxDetectionRate: 60; canvasWidth: 640; canvasHeight: 480;'
+        <!-- Configuración agresiva para máxima detección -->
+        <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5; trackingMethod: best; maxDetectionRate: 120; canvasWidth: 1024; canvasHeight: 768; patternRatio: 0.8; labelingMode: 1; minConfidence: 0.4;'
                  renderer="antialias: true; logarithmicDepthBuffer: true; colorManagement: true; sortObjects: true;"
                  id="scene">
 
         <!-- Marcador 1 - BERSA TPR9 -->
-        <a-marker id="animated-marker1" type='barcode' value='1' smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
+        <a-marker id="animated-marker1" type='barcode' value='1' smooth="true" smoothCount="10" smoothTolerance="0.05" smoothThreshold="5" minConfidence="0.3">
             <a-image 
                 src="BERSA TPR9_page-0001.jpg"
                 width="2"
@@ -133,10 +133,10 @@
             </a-image>
         </a-marker>
             
-        <!-- Marcador 11 - PISTOLA BALLESTER MOLINA Y RIGAU -->
-        <a-marker id="animated-marker11" type='barcode' value='11' smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
+        <!-- Marcador 11 - TU MARCADOR IMPRESO (BERSA TPR9) -->
+        <a-marker id="animated-marker11" type='barcode' value='11' smooth="true" smoothCount="10" smoothTolerance="0.05" smoothThreshold="5" minConfidence="0.3">
             <a-image 
-                src="PISTOLA BALLESTER MOLINA Y RIGAU_page-0001.jpg"
+                src="BERSA TPR9_page-0001.jpg"
                 width="2"
                 height="2"
                 position="0 0 0"
@@ -221,10 +221,10 @@
             </a-image>
         </a-marker>
 
-        <!-- Marcador 19 - THOMPSON -->
-        <a-marker id="animated-marker19" type='barcode' value='19' smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
+        <!-- Marcador 19 - TU MARCADOR IMPRESO (BERSA TPR9) -->
+        <a-marker id="animated-marker19" type='barcode' value='19' smooth="true" smoothCount="10" smoothTolerance="0.05" smoothThreshold="5" minConfidence="0.3">
             <a-image 
-                src="THOMPSON_page-0001.jpg"
+                src="BERSA TPR9_page-0001.jpg"
                 width="2"
                 height="2"
                 position="0 0 0"
@@ -248,23 +248,31 @@
             let detectedMarkers = new Set();
             let trackingHistory = [];
             let lastDetectionTime = 0;
+            let markerPersistence = {}; // Para mantener marcadores visibles por más tiempo
+            let PERSISTENCE_TIME = 2000; // 2 segundos de persistencia
 
             function updateDebugPanel() {
                 const now = Date.now();
-                debugPanel.markerCount.textContent = `Marcadores detectados: ${detectedMarkers.size}`;
+                const persistentMarkers = Object.keys(markerPersistence).map(Number);
+                
+                debugPanel.markerCount.textContent = `Marcadores: ${detectedMarkers.size} activos, ${persistentMarkers.length} persistentes`;
                 
                 if (detectedMarkers.size > 0) {
                     debugPanel.markerStatus.textContent = `Estado: ✅ Detectando [${Array.from(detectedMarkers).join(', ')}]`;
+                } else if (persistentMarkers.length > 0) {
+                    debugPanel.markerStatus.textContent = `Estado: ⏳ Persistencia [${persistentMarkers.join(', ')}]`;
                 } else {
                     debugPanel.markerStatus.textContent = `Estado: ❌ Sin detección`;
                 }
 
-                // Información de tracking
+                // Información de tracking mejorada
                 const trackingGap = now - lastDetectionTime;
-                if (trackingGap > 500) {
-                    debugPanel.trackingInfo.textContent = `Tracking: ⚠️ Perdido (${Math.round(trackingGap/100)/10}s)`;
+                if (trackingGap > 1000) {
+                    debugPanel.trackingInfo.textContent = `Tracking: ❌ Perdido (${Math.round(trackingGap/100)/10}s)`;
+                } else if (trackingGap > 300) {
+                    debugPanel.trackingInfo.textContent = `Tracking: ⚠️ Débil (${Math.round(trackingGap/100)/10}s)`;
                 } else {
-                    debugPanel.trackingInfo.textContent = `Tracking: ✅ Activo`;
+                    debugPanel.trackingInfo.textContent = `Tracking: ✅ Fuerte`;
                 }
             }
 
@@ -301,14 +309,27 @@
                                 marker.addEventListener('markerFound', function() {
                                     detectedMarkers.add(i);
                                     lastDetectionTime = Date.now();
+                                    markerPersistence[i] = Date.now();
                                     logEvent('MARCADOR ENCONTRADO', i);
                                     updateDebugPanel();
                                 });
 
-                                // Marcador perdido
+                                // Marcador perdido - con persistencia
                                 marker.addEventListener('markerLost', function() {
-                                    detectedMarkers.delete(i);
-                                    logEvent('MARCADOR PERDIDO', i);
+                                    markerPersistence[i] = Date.now();
+                                    logEvent('MARCADOR PERDIDO (con persistencia)', i);
+                                    
+                                    // Remover después del tiempo de persistencia
+                                    setTimeout(() => {
+                                        const timeSinceLost = Date.now() - markerPersistence[i];
+                                        if (timeSinceLost >= PERSISTENCE_TIME) {
+                                            detectedMarkers.delete(i);
+                                            delete markerPersistence[i];
+                                            logEvent('MARCADOR REMOVIDO definitivamente', i);
+                                            updateDebugPanel();
+                                        }
+                                    }, PERSISTENCE_TIME);
+                                    
                                     updateDebugPanel();
                                 });
 
