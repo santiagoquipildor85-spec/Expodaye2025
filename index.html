@@ -1,0 +1,377 @@
+<!doctype HTML>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    </head>
+    <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+    <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+
+    <body style='margin : 0px; overflow: hidden;'>
+        <!-- Panel de debug -->
+        <div id="debugPanel" style="position: fixed; top: 10px; left: 10px; background: rgba(0,0,0,0.8); color: white; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 12px; z-index: 1000; max-width: 300px;">
+            <div><strong>🔍 AR Debug Panel</strong></div>
+            <div id="markerStatus">Estado: Iniciando...</div>
+            <div id="markerCount">Marcadores detectados: 0</div>
+            <div id="trackingInfo">Tracking: No activo</div>
+            <div id="cameraInfo">Cámara: Iniciando...</div>
+            <div id="lastError">Sin errores</div>
+        </div>
+
+        <!-- Configuración exacta de AR.js para detección de códigos de barras matriciales -->
+        <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5;'
+                 renderer="antialias: true; logarithmicDepthBuffer: true; colorManagement: true; sortObjects: true;"
+                 id="scene">
+
+        <!-- Marcador 1 - BERSA TPR9 -->
+        <a-marker id="animated-marker1" type='barcode' value='1'>
+            <a-image 
+                src="BERSA TPR9_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+
+        <!-- Marcador 2 - CARABINA MADSEN -->
+        <a-marker id="animated-marker2" type='barcode' value='2'>
+            <a-image 
+                src="CARABINA MADSEN_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+            
+        <!-- Marcador 3 - CARABINA MAUSER -->
+        <a-marker id="animated-marker3" type='barcode' value='3'>
+            <a-image 
+                src="CARABINA MAUSER_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+        
+        <!-- Marcador 4 - HALCON M-1943 -->
+        <a-marker id="animated-marker4" type='barcode' value='4'>
+            <a-image 
+                src="HALCON M-1943_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+            
+        <!-- Marcador 5 - HALCON ML57 -->
+        <a-marker id="animated-marker5" type='barcode' value='5'>
+            <a-image 
+                src="HALCON ML57_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+            
+        <!-- Marcador 6 - HALCON ML62 -->
+        <a-marker id="animated-marker6" type='barcode' value='6'>
+            <a-image 
+                src="HALCON ML62_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+
+        <!-- Marcador 7 - HIGH STANDARD -->
+        <a-marker id="animated-marker7" type='barcode' value='7'>
+            <a-image 
+                src="HIGH STANDARD_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+        
+        <!-- Marcador 8 - ITHACA 37 -->
+        <a-marker id="animated-marker8" type='barcode' value='8'>
+            <a-image 
+                src="ITHACA 37_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+        
+        <!-- Marcador 9 - JERICHO RPSL -->
+        <a-marker id="animated-marker9" type='barcode' value='9'>
+            <a-image 
+                src="jericho rpsl_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+            
+        <!-- Marcador 10 - MOSCHETTO BERETTA -->
+        <a-marker id="animated-marker10" type='barcode' value='10'>
+            <a-image 
+                src="MOSCHETTO BERETTA_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+            
+        <!-- Marcador 11 - PISTOLA BALLESTER MOLINA Y RIGAU -->
+        <a-marker id="animated-marker11" type='barcode' value='11'>
+            <a-image 
+                src="PISTOLA BALLESTER MOLINA Y RIGAU_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+            
+        <!-- Marcador 12 - PISTOLA BROWNING -->
+        <a-marker id="animated-marker12" type='barcode' value='12'>
+            <a-image 
+                src="PISTOLA BROWNING_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+            
+        <!-- Marcador 13 - PISTOLA COLT M1911 -->
+        <a-marker id="animated-marker13" type='barcode' value='13'>
+            <a-image 
+                src="PISTOLA COLT M1911_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+            
+        <!-- Marcador 14 - PISTOLA EMETRALLADORA FMK3 -->
+        <a-marker id="animated-marker14" type='barcode' value='14'>
+            <a-image 
+                src="PISTOLA EMETRALLADORA FMK3_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+
+        <!-- Marcador 15 - PISTOLA HI-POWER -->
+        <a-marker id="animated-marker15" type='barcode' value='15'>
+            <a-image 
+                src="PISTOLA HI-POWER_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+
+        <!-- Marcador 16 - PISTOLA TAURUS -->
+        <a-marker id="animated-marker16" type='barcode' value='16'>
+            <a-image 
+                src="PISTOLA TAURUS_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+
+        <!-- Marcador 17 - REVOLVER COLT TROPPER -->
+        <a-marker id="animated-marker17" type='barcode' value='17'>
+            <a-image 
+                src="REVOLVER COLT TROPPER_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+
+        <!-- Marcador 18 - SISTEMA COLT -->
+        <a-marker id="animated-marker18" type='barcode' value='18'>
+            <a-image 
+                src="SISTEMA COLT_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+
+        <!-- Marcador 19 - THOMPSON -->
+        <a-marker id="animated-marker19" type='barcode' value='19'>
+            <a-image 
+                src="THOMPSON_page-0001.jpg"
+                width="2"
+                height="2"
+                position="0 0 0"
+                rotation="-90 0 0">
+            </a-image>
+        </a-marker>
+
+        <a-entity camera></a-entity>
+        </a-scene>
+
+        <!-- Script de debugging -->
+        <script>
+            let debugPanel = {
+                markerStatus: document.getElementById('markerStatus'),
+                markerCount: document.getElementById('markerCount'),
+                trackingInfo: document.getElementById('trackingInfo'),
+                cameraInfo: document.getElementById('cameraInfo'),
+                lastError: document.getElementById('lastError')
+            };
+
+            let detectedMarkers = new Set();
+            let trackingHistory = [];
+            let lastDetectionTime = 0;
+
+            function updateDebugPanel() {
+                const now = Date.now();
+                debugPanel.markerCount.textContent = `Marcadores detectados: ${detectedMarkers.size}`;
+                
+                if (detectedMarkers.size > 0) {
+                    debugPanel.markerStatus.textContent = `Estado: ✅ Detectando [${Array.from(detectedMarkers).join(', ')}]`;
+                } else {
+                    debugPanel.markerStatus.textContent = `Estado: ❌ Sin detección`;
+                }
+
+                // Información de tracking
+                const trackingGap = now - lastDetectionTime;
+                if (trackingGap > 500) {
+                    debugPanel.trackingInfo.textContent = `Tracking: ⚠️ Perdido (${Math.round(trackingGap/100)/10}s)`;
+                } else {
+                    debugPanel.trackingInfo.textContent = `Tracking: ✅ Activo`;
+                }
+            }
+
+            function logEvent(event, markerId = null) {
+                const timestamp = new Date().toLocaleTimeString();
+                console.log(`[${timestamp}] AR.js Event: ${event}${markerId ? ` - Marcador ${markerId}` : ''}`);
+                
+                trackingHistory.push({
+                    time: Date.now(),
+                    event: event,
+                    markerId: markerId
+                });
+
+                // Mantener solo los últimos 50 eventos
+                if (trackingHistory.length > 50) {
+                    trackingHistory.shift();
+                }
+            }
+
+            // Esperar a que se cargue A-Frame
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(function() {
+                    const scene = document.querySelector('a-scene');
+                    
+                    if (scene) {
+                        logEvent('Scene iniciada');
+                        debugPanel.cameraInfo.textContent = 'Cámara: ✅ Iniciada';
+
+                        // Event listeners para todos los marcadores
+                        for (let i = 1; i <= 19; i++) {
+                            const marker = document.querySelector(`#animated-marker${i}`);
+                            if (marker) {
+                                // Marcador encontrado
+                                marker.addEventListener('markerFound', function() {
+                                    detectedMarkers.add(i);
+                                    lastDetectionTime = Date.now();
+                                    logEvent('MARCADOR ENCONTRADO', i);
+                                    updateDebugPanel();
+                                });
+
+                                // Marcador perdido
+                                marker.addEventListener('markerLost', function() {
+                                    detectedMarkers.delete(i);
+                                    logEvent('MARCADOR PERDIDO', i);
+                                    updateDebugPanel();
+                                });
+
+                                logEvent(`Listener configurado para marcador ${i}`);
+                            }
+                        }
+
+                        // Event listener general de AR.js
+                        scene.addEventListener('arjs-video-loaded', function() {
+                            logEvent('Video cargado');
+                            debugPanel.cameraInfo.textContent = 'Cámara: ✅ Video cargado';
+                        });
+
+                        scene.addEventListener('camera-init', function() {
+                            logEvent('Cámara inicializada');
+                        });
+
+                        scene.addEventListener('camera-error', function(event) {
+                            logEvent('ERROR DE CÁMARA');
+                            debugPanel.lastError.textContent = `Error: Cámara falló`;
+                            debugPanel.cameraInfo.textContent = 'Cámara: ❌ Error';
+                        });
+
+                    } else {
+                        debugPanel.lastError.textContent = 'Error: No se encontró la scene';
+                    }
+
+                    // Actualizar panel cada 100ms
+                    setInterval(updateDebugPanel, 100);
+
+                }, 1000);
+            });
+
+            // Log de errores globales
+            window.addEventListener('error', function(event) {
+                logEvent('ERROR JAVASCRIPT');
+                debugPanel.lastError.textContent = `Error: ${event.message}`;
+                console.error('Error capturado:', event);
+            });
+
+            // Función para exportar logs (para debugging)
+            window.exportLogs = function() {
+                const logs = {
+                    trackingHistory: trackingHistory,
+                    detectedMarkers: Array.from(detectedMarkers),
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                };
+                
+                console.log('=== LOGS DE DEBUGGING ===');
+                console.log(JSON.stringify(logs, null, 2));
+                
+                // También crear un archivo descargable
+                const blob = new Blob([JSON.stringify(logs, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ar-debug-${Date.now()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            };
+
+            logEvent('Script de debugging cargado');
+        </script>
+    </body>
+</html>
