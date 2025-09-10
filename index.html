@@ -18,8 +18,8 @@
             <div id="lastError">Sin errores</div>
         </div>
 
-        <!-- Configuración básica mejorada -->
-        <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5; maxDetectionRate: 30;'
+        <!-- Configuración básica mejorada con mejor calidad de cámara -->
+        <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5; maxDetectionRate: 30; sourceWidth: 1280; sourceHeight: 960; displayWidth: 1280; displayHeight: 960;'
                  renderer="antialias: true; logarithmicDepthBuffer: true; colorManagement: true; sortObjects: true;"
                  id="scene">
 
